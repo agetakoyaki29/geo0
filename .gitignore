@@ -1,0 +1,13 @@
+
+# SBT
+target/
+project/
+.tmpBin/
+
+# Eclipse
+bin/
+.settings/
+.project
+.classpath
+.cache-main
+.cache-tests

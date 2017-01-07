@@ -1,0 +1,6 @@
+
+* validate throw Exception => Option
+Dim2Factory.create(): Option[T] = {
+  try { Some(apply()) }
+  catch[IllegalArgumentException] { None }
+}
