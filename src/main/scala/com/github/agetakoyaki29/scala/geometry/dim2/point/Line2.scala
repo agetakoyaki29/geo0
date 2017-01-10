@@ -14,7 +14,7 @@ object Dir2 extends Dim2Factory[Dir2] {
 
 
 @SameRet
-class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
+class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   override val factory: Dim2Factory[_ <: Dir2] = Dir2
 
@@ -50,7 +50,7 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
   // ---- figure to point ----
 
   // def inRegion1(pt: Point): Boolean = this dotGt0 pt
-  // def inRegion2(pt: Point): Boolean = (this reflect) inRegion1 (this to pt)
+  // def inRegion2(pt: Point): Boolean = (this reflect) inRegion1 (pt - this)
 
   def through(pt: Point2): Boolean = this crossEq0 pt
 
@@ -63,15 +63,15 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
   /**
    * this sinTo pt * pt.norm
    */
-  override def distance(pt: Point2): Double = (this cross pt / this.norm).abs
-  override def distanceSqr(pt: Point2): Double = (this cross pt).sqr / this.normSqr
+  def distance(pt: Point2): Double = (this cross pt / this.norm).abs
+  def distanceSqr(pt: Point2): Double = (this cross pt).sqr / this.normSqr
 
   /**
    * this.normalized * this cosTo pt * pt.norm
    * pt + this.normal.normalized * -distance
    * this * (this dot pt) / (this dot this)
    */
-  def nearest(pt: Point2): Point2 = Point2(this) * (this dot pt / this.normSqr)
+  def nearest(pt: Point2): Point2 = Point2(this * (this dot pt / this.normSqr))
 
   // ---- figure to other figure ----
 
