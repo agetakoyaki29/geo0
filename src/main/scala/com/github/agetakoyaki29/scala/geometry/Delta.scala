@@ -108,6 +108,9 @@ object Delta {
 
     // ---- copy from java.lang.Double ----
     def isFinite: Boolean = java.lang.Double.isFinite(that)
+    def toLongBits: Long = java.lang.Double.doubleToLongBits(that)
+    def toRawLongBits: Long = java.lang.Double.doubleToRawLongBits(that)
+    def toHexString: String = java.lang.Double.toHexString(that)
 
     // ---- copy from Math ----
     // def acos: Double = Math.acos(that)
@@ -141,6 +144,10 @@ object Delta {
     def pow(exponent: Double): Double = Math.pow(that, exponent)
     def rint: Double = Math.rint(that)
     def scalb(scaleFactor: Int): Double = Math.scalb(that, scaleFactor)
+  }
+
+  implicit class RichLong(val that: Long) {
+    def bitsToDouble: Double = java.lang.Double.longBitsToDouble(that)
   }
 
   // ---- for ____ ----
