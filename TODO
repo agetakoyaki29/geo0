@@ -9,3 +9,7 @@ Dim2Factory.create(): Option[T] = {
 implicit def dirToLine(dir: Dir2): Line = Line(O, dir)
 dir angleTo line
 dir unfrom => line
+
+* between basic operator and {R^2 + ∞}
+inf - inf = zero ?
+dot, cross ?

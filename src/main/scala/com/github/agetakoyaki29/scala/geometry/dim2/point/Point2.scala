@@ -26,6 +26,7 @@ class Point2(_x: Double, _y: Double) extends Vector2(_x, _y) with Trans2[Point2]
 
   /**
    * return distance between two point >= 0
+   * isInfinite distance isInfinite = 0
    */
   def distance(op: Point2): Double = (this to op).norm
   def distanceSqr(op: Point2): Double = (this to op).normSqr
@@ -35,7 +36,10 @@ class Point2(_x: Double, _y: Double) extends Vector2(_x, _y) with Trans2[Point2]
   // ---- for Trans2 ----
 
   def +(op: Point2): Point2 = this.+(op.toDim2)
-  def -(op: Point2): Point2 = this.-(op.toDim2)
+  def -(op: Point2): Point2 = {
+    if(this.isInfinite && op.isInfinite) O
+    else this.-(op.toDim2)
+  }
 
   // ---- use Trans2 ----
 
