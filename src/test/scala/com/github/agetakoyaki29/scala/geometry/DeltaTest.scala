@@ -101,7 +101,7 @@ class RichDoubleTest extends WordSpec with Matchers {
   }
 
   "RichDouble" when {
-    "NaN" should {
+    s"NaN($NaN)" should {
       "isNaN" in {
         assert(NaN.isNaN)
       }
@@ -109,14 +109,14 @@ class RichDoubleTest extends WordSpec with Matchers {
       behave like testNormal(NaN)
     }
     "isInfs" when {
-      "PositiveInfinity" should {
+      s"PositiveInfinity($PositiveInfinity)" should {
         "isInfinite" in {
           assert(PositiveInfinity.isInfinite)
         }
         behave like testUlp(PositiveInfinity)
         behave like testNormal(PositiveInfinity)
       }
-      "NegativeInfinity" should {
+      s"NegativeInfinity($NegativeInfinity)" should {
         "isInfinite" in {
           assert(NegativeInfinity.isInfinite)
         }
@@ -125,7 +125,7 @@ class RichDoubleTest extends WordSpec with Matchers {
       }
     }
     "isZeros" when {
-      "PositiveZero" should {
+      s"PositiveZero($PositiveZero)" should {
         "isZero" in {
           assert(PositiveZero.isZero)
         }
@@ -135,7 +135,7 @@ class RichDoubleTest extends WordSpec with Matchers {
         behave like testUlp(PositiveZero)
         behave like testNormal(PositiveZero)
       }
-      "NegativeZero" should {
+      s"NegativeZero($NegativeZero)" should {
         "isZero" in {
           assert(NegativeZero.isZero)
         }
@@ -152,28 +152,28 @@ class RichDoubleTest extends WordSpec with Matchers {
         behave like testNormal(NegativeZero)
       }
     }
-    "MinPositiveValue" should {
+    s"MinPositiveValue($MinPositiveValue)" should {
       "ulp === Double.MinPositiveValue" in {
         assert(MinPositiveValue.ulp === Double.MinPositiveValue)
       }
       behave like testUlp(MinPositiveValue)
       behave like testNormal(MinPositiveValue)
     }
-    "MinNormal" should {
+    s"MinNormal($MinNormal)" should {
       "ulp === Double.MinPositiveValue" in {
         assert(MinNormal.ulp === Double.MinPositiveValue)
       }
       behave like testUlp(MinNormal)
       behave like testNormal(MinNormal)
     }
-    "MaxVal" should {
+    s"MaxVal($MaxVal)" should {
       "MaxVal === -MinVal" in {
         assert(MaxVal === -MinVal)
       }
       behave like testUlp(MaxVal)
       behave like testNormal(MaxVal)
     }
-    "MinVal" should {
+    s"MinVal($MinVal)" should {
       "MinVal === -MaxVal" in {
         assert(MinVal === -MaxVal)
       }
@@ -181,23 +181,23 @@ class RichDoubleTest extends WordSpec with Matchers {
       behave like testNormal(MinVal)
     }
 
-    "double1" should {
+    s"double1($double1)" should {
       behave like testUlp(double1)
       behave like testNormal(double1)
     }
-    "double2" should {
+    s"double2($double2)" should {
       behave like testUlp(double2)
       behave like testNormal(double2)
     }
-    "double3" should {
+    s"double3($double3)" should {
       behave like testUlp(double3)
       behave like testNormal(double3)
     }
-    "minP1" should {
+    s"minP1($minP1)" should {
       behave like testUlp(minP1)
       behave like testNormal(minP1)
     }
-    "NonNormal1" should {
+    s"NonNormal1($NonNormal1)" should {
       behave like testUlp(NonNormal1)
       behave like testNormal(NonNormal1)
     }
