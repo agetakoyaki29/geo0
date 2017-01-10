@@ -49,8 +49,11 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
 
   // ---- figure to point ----
 
-  // def inRegion1(pt: Point): Boolean = this dotGt0 pt
-  // def inRegion2(pt: Point): Boolean = (this to O) dotGt0 (this to pt)
+  // def inRegion1(pt: Point): Boolean = pt match {
+  //   case _ if pt.isInfinite => true
+  //   case _ => this dotGt0 pt
+  // }
+  // def inRegion2(pt: Point): Boolean = (this reflect) inRegion1 (this to pt)
 
   def through(pt: Point2): Boolean = pt match {
     case _ if pt.isInfinite => true
@@ -61,23 +64,34 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
    * 0 <= this angle pt <= pi
    * (this sinTo pt) < 0
    */
-  def contain(pt: Point2): Boolean = pt match {
+  def containPoint2(pt: Point2): Boolean = pt match {
     case _ if pt.isInfinite => true
     case _ => this crossLt0 pt
   }
 
   /**
    * this sinTo pt * pt.norm
+   * this distance isInfinite => PositiveInfinite
    */
-  override def distance(pt: Point2): Double = (this cross pt / this.norm).abs
-  override def distanceSqr(pt: Point2): Double = (this cross pt).sqr / this.normSqr
+  override def distance(pt: Point2): Double = pt match {
+    case _ if pt.isInfinite => Double.PositiveInfinity
+    case _ => (this cross pt / this.norm).abs
+  }
+  override def distanceSqr(pt: Point2): Double = pt match {
+    case _ if pt.isInfinite => Double.PositiveInfinity
+    case _ => (this cross pt).sqr / this.normSqr
+  }
 
   /**
    * this.normalized * this cosTo pt * pt.norm
    * pt + this.normal.normalized * -distance
    * this * (this dot pt) / (this dot this)
+   * this distance isInfinite => PositiveInfinite
    */
-  def nearest(pt: Point2): Point2 = Point2(this) * (this dot pt / this.normSqr)
+  def nearest(pt: Point2): Point2 = pt match {
+    case _ if pt.isInfinite => Point2.Infinity
+    case _ => Point2(this) * (this dot pt / this.normSqr)
+  }
 
   // ---- figure to other figure ----
 
