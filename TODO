@@ -4,3 +4,8 @@ Dim2Factory.create(): Option[T] = {
   try { Some(apply()) }
   catch[IllegalArgumentException] { None }
 }
+
+* dir == Line(O, dir)
+implicit def dirToLine(dir: Dir2): Line = Line(O, dir)
+dir angleTo line
+dir unfrom => line

@@ -77,7 +77,7 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
    * pt + this.normal.normalized * -distance
    * this * (this dot pt) / (this dot this)
    */
-  def nearest(pt: Point2): Point2 = Point2(this * (this dot pt / this.normSqr))
+  def nearest(pt: Point2): Point2 = Point2(this) * (this dot pt / this.normSqr)
 
   // ---- figure to other figure ----
 
