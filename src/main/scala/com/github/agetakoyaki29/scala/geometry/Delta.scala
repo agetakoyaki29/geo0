@@ -26,8 +26,12 @@ object Delta {
 
   def sign(boolean: Boolean): Int = if(boolean) 1 else -1
 
-  // def minus: Double = -that
-  // def isPositive: Boolean = ??? // PositiveZero, NegativeZero
+  def minus(double: Double): Double = -double
+
+  def isPositive(double: Double): Boolean = ??? // PositiveZero, NegativeZero
+  def isNegative(double: Double): Boolean = ! isPositive(double)
+
+  // def isPositiveInfinite(double: Double): Boolean
 
   def log2(double: Double): Double = log(double, 2)   // FIXME fast, rounded, check special double
 
@@ -36,8 +40,12 @@ object Delta {
   // ---- Zero ----
 
   val Zero = 0d
+  val PositiveZero = +0d
+  val NegativeZero = -0d
 
   def isZero(double: Double): Boolean = double == 0d
+  def isPositiveZero(double: Double): Boolean = double.isZero && double.isPositive
+  def isNegativeZero(double: Double): Boolean = double.isZero && double.isNegative
 
   // ---- Normal ----
 
@@ -88,10 +96,18 @@ object Delta {
     def sqr: Double = that.scalb(1)
 
     // ---- copy from Delta ----
+    def minus: Double = Delta.minus(that)
+    def isPositive: Boolean = Delta.isPositive(that)
+    def isNegative: Boolean = Delta.isNegative(that)
+    def isPositiveZero: Boolean = Delta.isPositiveZero(that)
+    def isNegativeZero: Boolean = Delta.isNegativeZero(that)
     def isZero: Boolean = Delta.isZero(that)
     def isNormal: Boolean = Delta.isNormal(that)
     def log2: Double = Delta.log2(that)
     def log(d2: Double): Double = Delta.log(that, d2)
+
+    // ---- copy from java.lang.Double ----
+    def isFinite: Boolean = java.lang.Double.isFinite(that)
 
     // ---- copy from Math ----
     // def acos: Double = Math.acos(that)
