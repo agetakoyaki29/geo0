@@ -10,7 +10,7 @@ trait Dim extends IndexedSeq[Double] {
   // val factory: DimFactory[_ <: Dim]
 
   final def isZero: Boolean = map{_.isZero}.reduce{_&&_}
-  final def isInfinite: Boolean = map{_.isInfinite}.reduce{_||_}
+  final def isInfinite: Boolean = !isNaN && map{_.isInfinite}.reduce{_||_}
   final def isNaN: Boolean = map{_.isNaN}.reduce{_||_}
 
   def norm: Double = normSqr.sqrt
