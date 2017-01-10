@@ -14,10 +14,11 @@ class RichDoubleTest extends WordSpec with Matchers {
   val MinNormal = Delta.MinNormal  // java.lang.Double.MIN_NORMAL
   val MaxVal = Double.MaxValue
   val MinVal = Double.MinValue
-  val Zero = 0d
-  val PosZero = +0d   // TODO rename or delete
-  val NegZero = -0d
+  val PositiveZero = +0d   // TODO rename or delete
+  val NegativeZero = -0d
   // val One = 1d
+  val PositiveDouble = +313.523
+  val NegativeDouble = -62.66
 
   val double1 = 2d
   val double2 = Math.PI
@@ -25,18 +26,77 @@ class RichDoubleTest extends WordSpec with Matchers {
   val minP1 = Double.MinPositiveValue.scalb(4)
   val NonNormal1 = MinNormal.nextDown
 
-  "about +,-,*,/,%(5 arithmetic operations)" when {
-    "positive any / PosZero === Double.PositiveInfinity" in {
-      assert(double2 / PosZero === Double.PositiveInfinity)
-    }
-    "positive any / NegZero === Double.NegativeInfinity" in {
-      assert(double2 / NegZero === Double.NegativeInfinity)
-    }
-  }
-
   "about ==,!=,<,<=,>,>=(6 comparison operations)" when {
     "NaN !== Nan" in {
       assert(NaN !== NaN)
+    }
+    "+Zero === -Zero" in {
+      assert(PositiveZero === NegativeZero)
+    }
+  }
+
+  "about +,-,*,/,%(5 arithmetic operations)" when {
+    "Inf + Inf === Inf (same sign)" in {
+      assert(PositiveInfinity + PositiveInfinity === Double.PositiveInfinity)
+      assert(NegativeInfinity + NegativeInfinity === Double.NegativeInfinity)
+    }
+    "Inf + Inf is NaN (different sign)" in {
+      assert((NegativeInfinity + PositiveInfinity).isNaN)
+      assert((PositiveInfinity + NegativeInfinity).isNaN)
+    }
+
+    "Inf * Zero is NaN (and vise versa)" in {
+      assert((PositiveInfinity * PositiveZero).isNaN)
+      assert((NegativeInfinity * NegativeZero).isNaN)
+      assert((PositiveInfinity * NegativeZero).isNaN)
+      assert((NegativeInfinity * PositiveZero).isNaN)
+      assert((PositiveZero * PositiveInfinity).isNaN)
+      assert((NegativeZero * NegativeInfinity).isNaN)
+      assert((NegativeZero * PositiveInfinity).isNaN)
+      assert((PositiveZero * NegativeInfinity).isNaN)
+    }
+
+    "Inf / Inf isNaN" in {
+      assert((PositiveInfinity / PositiveInfinity).isNaN)
+      assert((NegativeInfinity / NegativeInfinity).isNaN)
+      assert((PositiveInfinity / NegativeInfinity).isNaN)
+      assert((NegativeInfinity / PositiveInfinity).isNaN)
+    }
+    "any(non Inf) / Inf === Zero" in {
+      assert((PositiveDouble / PositiveInfinity).isZero)
+      assert((NegativeDouble / NegativeInfinity).isZero)
+      assert((PositiveDouble / NegativeInfinity).isZero)
+      assert((NegativeDouble / PositiveInfinity).isZero)
+      // assert((PositiveDouble / PositiveInfinity).isPositiveZero)
+      // assert((NegativeDouble / NegativeInfinity).isPositiveZero)
+      // assert((PositiveDouble / NegativeInfinity).isNegativeZero)
+      // assert((NegativeDouble / PositiveInfinity).isNegativeZero)
+      assert((PositiveZero / PositiveInfinity).isZero)
+      assert((NegativeZero / NegativeInfinity).isZero)
+      assert((PositiveZero / NegativeInfinity).isZero)
+      assert((NegativeZero / PositiveInfinity).isZero)
+      // assert((PositiveZero / PositiveInfinity).isPositiveZero)
+      // assert((NegativeZero / NegativeInfinity).isPositiveZero)
+      // assert((PositiveZero / NegativeInfinity).isNegativeZero)
+      // assert((NegativeZero / PositiveInfinity).isNegativeZero)
+    }
+    "Zero / Zero isNaN" in {
+      assert((PositiveZero / PositiveZero).isNaN)
+      assert((NegativeZero / NegativeZero).isNaN)
+      assert((PositiveZero / NegativeZero).isNaN)
+      assert((NegativeZero / PositiveZero).isNaN)
+    }
+    "any(non Zero) / Zero === Double.PositiveInfinity (same sign)" in {
+      assert(PositiveDouble / PositiveZero === Double.PositiveInfinity)
+      assert(NegativeDouble / NegativeZero === Double.PositiveInfinity)
+      assert(PositiveInfinity / PositiveZero === Double.PositiveInfinity)
+      assert(NegativeInfinity / NegativeZero === Double.PositiveInfinity)
+    }
+    "any(non Zero) / Zero === Double.NegativeInfinity (different sign)" in {
+      assert(PositiveDouble / NegativeZero === Double.NegativeInfinity)
+      assert(NegativeDouble / PositiveZero === Double.NegativeInfinity)
+      assert(PositiveInfinity / NegativeZero === Double.NegativeInfinity)
+      assert(NegativeInfinity / PositiveZero === Double.NegativeInfinity)
     }
   }
 
@@ -65,31 +125,31 @@ class RichDoubleTest extends WordSpec with Matchers {
       }
     }
     "isZeros" when {
-      "Zero" should {
+      "PositiveZero" should {
         "isZero" in {
-          assert(Zero.isZero)
+          assert(PositiveZero.isZero)
         }
         "ulp === Double.MinPositiveValue" in {
-          assert(Zero.ulp === Double.MinPositiveValue)
+          assert(PositiveZero.ulp === Double.MinPositiveValue)
         }
-        behave like testUlp(Zero)
-        behave like testNormal(Zero)
+        behave like testUlp(PositiveZero)
+        behave like testNormal(PositiveZero)
       }
-      "NegZero" should {
+      "NegativeZero" should {
         "isZero" in {
-          assert(NegZero.isZero)
+          assert(NegativeZero.isZero)
         }
         "Math.signum: Double === -0d" in {
-          assert(Math.signum(NegZero) === -0d)
+          assert(Math.signum(NegativeZero) === -0d)
         }
         "signum: Int === 0" in {
-          assert(NegZero.signum === 0)
+          assert(NegativeZero.signum === 0)
         }
-        "NegZero === -PosZero" in {
-          assert(NegZero === -PosZero)
+        "NegativeZero === -PositiveZero" in {
+          assert(NegativeZero === -PositiveZero)
         }
-        behave like testUlp(NegZero)
-        behave like testNormal(NegZero)
+        behave like testUlp(NegativeZero)
+        behave like testNormal(NegativeZero)
       }
     }
     "MinPositiveValue" should {
@@ -144,7 +204,7 @@ class RichDoubleTest extends WordSpec with Matchers {
 
     def testNormal(double: Double) = double match {
       case _ if !double.isNormal => {
-        "non normal double is !NaN && !Inf && !Zero" in {
+        "non normal double !isNaN && !isInf && !isZero" in {
           assert(!(double.isNaN || double.isInfinite || double.isZero))
         }
         "non normal double abs < java.lang.Double.MIN_NORMAL" in {
