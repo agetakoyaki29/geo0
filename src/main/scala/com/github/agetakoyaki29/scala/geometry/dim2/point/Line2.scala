@@ -48,8 +48,8 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // ---- figure to point ----
 
-  // def inRegion1(pt: Point): Boolean = this dotGt0 pt
-  // def inRegion2(pt: Point): Boolean = (this reflect) inRegion1 (pt - this)
+  def inRegion1(pt: Point2): Boolean = this dotGt0 pt
+  def inRegion2(pt: Point2): Boolean = (this reflect) inRegion1 (pt - this)
 
   def through(pt: Point2): Boolean = this crossEq0 pt
 
@@ -146,8 +146,8 @@ class Line2(val sp: Point2, val dir: Dir2) extends Trans2[Line2] with Figure2 {
   def cosTo(op: Line2): Double = ???
   def sinTo(op: Line2): Double = ???
 
-  // def inRegion1(pt: Point): Boolean = ???
-  // def inRegion2(pt: Point): Boolean = ???
+  def inRegion1(pt: Point2): Boolean = ???
+  def inRegion2(pt: Point2): Boolean = ???
   def through(pt: Point2): Boolean = ???
   def containPoint2(pt: Point2): Boolean = ???
   def distance(pt: Point2): Double = ???
