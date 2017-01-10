@@ -21,15 +21,25 @@ class Vector2(_x: Double, _y: Double) extends Dim2(_x, _y) {
 
   // ----
 
+  /**
+   * return dot
+   * any dot isInfinite => isInfinite or NaN (Zero*Inf, Inf-Inf)
+   * any dot isZero => isZero
+   */
   final def dot(op: Vector2): Double = zipmapD2(op) {_*_} sum
+
   final def dotEq0(op: Vector2): Boolean = ???
   final def dotGt0(op: Vector2): Boolean = ???
   final def dotLt0(op: Vector2): Boolean = ???
 
   /**
+   * return No 3 elem of cross
    * Vector3(this) cross Vector3(op) apply 2
+   * any dot isInfinite => isInfinite or NaN (Zero*Inf, Inf-Inf)
+   * any dot isZero => isZero
    */
   final def cross(op: Vector2): Double = ???
+
   final def crossEq0(op: Vector2): Boolean = ???
   final def crossGt0(op: Vector2): Boolean = ???
   final def crossLt0(op: Vector2): Boolean = ???

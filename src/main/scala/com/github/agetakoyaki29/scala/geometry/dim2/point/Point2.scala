@@ -24,6 +24,9 @@ class Point2(_x: Double, _y: Double) extends Vector2(_x, _y) with Trans2[Point2]
 
   // ----
 
+  /**
+   * return distance between two point >= 0
+   */
   def distance(op: Point2): Double = (this to op).norm
   def distanceSqr(op: Point2): Double = (this to op).normSqr
 
