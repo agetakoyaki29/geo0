@@ -73,8 +73,14 @@ class Dim2(val x: Double, val y: Double) extends IndexedSeq[Double] with Dim {
   @UpRet def unary_+(): Dim2 = factory(this)
   @UpRet def unary_-(): Dim2 = mapD2{-_}
 
-  @UpRet def +(op: Dim2): Dim2 = zipmapD2(op) {_+_}
-  @UpRet def -(op: Dim2): Dim2 = zipmapD2(op) {_-_}
+  @UpRet def +(op: Dim2): Dim2 = {
+    if(this.isInfinite && op.isInfinite) factory(this)
+    else zipmapD2(op) {_+_}
+  }
+  @UpRet def -(op: Dim2): Dim2 = {
+    if(this.isInfinite && op.isInfinite) factory(this)
+    else zipmapD2(op) {_-_}
+  }
 
   @UpRet def *(d: Double): Dim2 = mapD2{_*d}
   @UpRet def /(d: Double): Dim2 = mapD2{_/d}
