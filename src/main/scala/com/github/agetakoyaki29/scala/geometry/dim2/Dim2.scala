@@ -35,14 +35,7 @@ object Dim2 extends Dim2Factory[Dim2] {
 
 
 class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
-
   val (x, y) = (_x, _y)
-  // val (x, y) = {
-  //   val _seq = Seq(_x, _y)
-  //   if(_seq map {_.isNaN} reduce {_||_}) (NaN, NaN)
-  //   else if(_seq map {_.isInfinite} reduce {_||_}) (PositiveInfinite, PositiveInfinite)
-  //   else (_x, _y)
-  // }
 
   val factory: Dim2Factory[_ <: Dim2] = Dim2
 
@@ -54,7 +47,7 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   this foreach {validateEach apply _}
 
   protected def validate: PartialFunction[Dim2, Dim2] = Dim2.All
-  protected def validateEach: PartialFunction[Double, Double] = All
+  protected def validateEach: PartialFunction[Double, Double] = All orElse NonNaN orElse NonInfinite
 
   // ---- for IndexedSeq ----
 
@@ -81,35 +74,36 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   @UpRet def unary_+(): Dim2 = factory(this)
   @UpRet def unary_-(): Dim2 = mapD2{-_}
 
-  @UpRet def +(op: Dim2): Dim2 = {
-    if(this.isInfinite && op.isInfinite) factory(this)
-    else zipmapD2(op) {_+_}
-  }
+  @UpRet def +(op: Dim2): Dim2 = zipmapD2(op) {_+_}
 
-  @UpRet def -(op: Dim2): Dim2 = {
-    if(this.isInfinite && op.isInfinite) factory(this)
-    else zipmapD2(op) {_-_}
+  @UpRet def -(op: Dim2): Dim2 = zipmapD2(op) {_-_}
+
+  /**
+   * @param d NonInfinite(zero * inf = NaN)
+   */
+  @UpRet def *(d: Double): Dim2 = d match {
+    case _ if d.isInfinite => throw new IllegalArgumentException("required non infinite")
+    case _ => mapD2{_*d}
   }
 
   /**
-   * isZero * isInfinite => isNaN
-   * isInfinite * isZero => isNaN
+   * @param d NonZero(zero / zero = NaN, any / zero = inf)
    */
-  @UpRet def *(d: Double): Dim2 = mapD2{_*d}
-
-  /**
-   * isZero / isZero => isNaN
-   * isInfinite / isInfinite => isNaN
-   */
-  @UpRet def /(d: Double): Dim2 = mapD2{_/d}
+  @UpRet def /(d: Double): Dim2 = d match {
+    case _ if d.isZero => throw new IllegalArgumentException("required non zero")
+    case _ => mapD2{_/d}
+  }
 
   @UpRet def minus: Dim2 = -this
 
   /**
    * return 1 norm, same direction Dim2
-   * isZero or isInfinite => isNaN
+   * isZero => throw IllegalStateException
    */
-  @UpRet def normalized: Dim2 = this / norm
+  @UpRet def normalized: Dim2 = {
+    if(this.isZero) throw new IllegalStateException("Zero can't normalize")
+    this / norm
+  }
 
   // ---- std ----
 

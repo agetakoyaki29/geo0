@@ -20,7 +20,7 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
 
   def toDir2: Dir2 = this
 
-  override protected def validate = Dim2.NonZero orElse Dim2.NonInfinite orElse super.validate
+  override protected def validate = Dim2.NonZero orElse super.validate
 
   // ----
 
@@ -49,55 +49,35 @@ class Dir2(_x: Double, _y: Double) extends Point2(_x, _y) {
 
   // ---- figure to point ----
 
-  // def inRegion1(pt: Point): Boolean = pt match {
-  //   case _ if pt.isInfinite => true
-  //   case _ => this dotGt0 pt
-  // }
+  // def inRegion1(pt: Point): Boolean = this dotGt0 pt
   // def inRegion2(pt: Point): Boolean = (this reflect) inRegion1 (this to pt)
 
-  def through(pt: Point2): Boolean = pt match {
-    case _ if pt.isInfinite => true
-    case _ => this crossEq0 pt
-  }
+  def through(pt: Point2): Boolean = this crossEq0 pt
 
   /**
    * 0 <= this angle pt <= pi
    * (this sinTo pt) < 0
    */
-  def containPoint2(pt: Point2): Boolean = pt match {
-    case _ if pt.isInfinite => true
-    case _ => this crossLt0 pt
-  }
+  def containPoint2(pt: Point2): Boolean = this crossLt0 pt
 
   /**
    * this sinTo pt * pt.norm
-   * this distance isInfinite => PositiveInfinite
    */
-  override def distance(pt: Point2): Double = pt match {
-    case _ if pt.isInfinite => Double.PositiveInfinity
-    case _ => (this cross pt / this.norm).abs
-  }
-  override def distanceSqr(pt: Point2): Double = pt match {
-    case _ if pt.isInfinite => Double.PositiveInfinity
-    case _ => (this cross pt).sqr / this.normSqr
-  }
+  override def distance(pt: Point2): Double = (this cross pt / this.norm).abs
+  override def distanceSqr(pt: Point2): Double = (this cross pt).sqr / this.normSqr
 
   /**
    * this.normalized * this cosTo pt * pt.norm
    * pt + this.normal.normalized * -distance
    * this * (this dot pt) / (this dot this)
-   * this distance isInfinite => PositiveInfinite
    */
-  def nearest(pt: Point2): Point2 = pt match {
-    case _ if pt.isInfinite => Point2.Infinity
-    case _ => Point2(this) * (this dot pt / this.normSqr)
-  }
+  def nearest(pt: Point2): Point2 = Point2(this) * (this dot pt / this.normSqr)
 
   // ---- figure to other figure ----
 
   def same(op: Dir2): Boolean = this parallel op
 
-  // def same(line: Line): Boolean = (this passThrough line.sp) && (this parallel line.dir)
+  // def same(line: Line): Boolean = (this through line.sp) && (this parallel line.dir)
 
   // def aabb: AABB = AABB.WHOLE
 

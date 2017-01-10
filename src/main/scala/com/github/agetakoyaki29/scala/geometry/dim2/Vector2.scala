@@ -17,14 +17,10 @@ class Vector2(_x: Double, _y: Double) extends Dim2(_x, _y) {
 
   def toVector2: Vector2 = this
 
-  override protected def validateEach = NonNaN orElse super.validateEach
-
   // ----
 
   /**
    * return dot
-   * any dot isInfinite => isInfinite or NaN (Zero*Inf, Inf-Inf)
-   * any dot isZero => isZero
    */
   final def dot(op: Vector2): Double = zipmapD2(op) {_*_} sum
 
@@ -35,8 +31,6 @@ class Vector2(_x: Double, _y: Double) extends Dim2(_x, _y) {
   /**
    * return No 3 elem of cross
    * Vector3(this) cross Vector3(op) apply 2
-   * any dot isInfinite => isInfinite or NaN (Zero*Inf, Inf-Inf)
-   * any dot isZero => isZero
    */
   final def cross(op: Vector2): Double = ???
 
