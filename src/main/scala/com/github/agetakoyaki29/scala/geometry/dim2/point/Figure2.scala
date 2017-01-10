@@ -4,7 +4,7 @@ import com.github.agetakoyaki29.scala.geometry
 
 
 trait Figure2 {
-// def aabb: Rect
+  // def aabb: Rect
   // def distance(pt: Point2): Double
   // def through(pt: Point2): Boolean
   // def nearest(pt: Point2): Point2

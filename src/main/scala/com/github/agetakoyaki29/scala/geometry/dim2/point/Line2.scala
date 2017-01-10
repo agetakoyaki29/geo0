@@ -28,12 +28,11 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // ---- about angle ----
 
-  def align(idx: Int) = this parallel Dir2.E(idx)
+  def align(idx: Int): Boolean = this parallel Dir2.E(idx)
 
   @UpRet def normalDir: Dir2 = factory(-y, x)
 
   def normal(op: Dir2): Boolean = this dotEq0 op
-
   def parallel(op: Dir2): Boolean = this crossEq0 op
 
   /**
@@ -77,12 +76,12 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   def same(op: Dir2): Boolean = this parallel op
 
-  // def same(line: Line): Boolean = (this through line.sp) && (this parallel line.dir)
+  def same(line: Line2): Boolean = (this through line.sp) && (this parallel line.dir)
 
   // def aabb: AABB = AABB.WHOLE
 
-  // def intersect(line: Line): Set[Point2] = ???
-  // def isIntersect(line: Line): Boolean = ???
+  def intersectLine2(line: Line2): Set[Point2] = ???
+  def isIntersectLine2(line: Line2): Boolean = ???
 
   // ---- UpRet ----
 
@@ -103,8 +102,59 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
 
 object Line2 {
+  def apply(sp: Point2, dir: Dir2) = new Line2(sp, dir)
+  def apply(sp: Point2, ep: Point2) = new Line2(sp, Dir2(sp to ep))
 }
 
 
-class Line2 {
+class Line2(val sp: Point2, val dir: Dir2) extends Trans2[Line2] with Figure2 {
+  val ep = sp unto Point2(dir)
+
+  def updated(sp: Point2, dir: Dir2): Line2 = Line2(sp, dir)
+  def updatedSP(sp: Point2): Line2 = updated(sp, dir)
+  def updatedDir(dir: Dir2): Line2 = updated(sp, dir)
+  def updatedEP(ep: Point2): Line2 = updatedDir(Dir2(sp to ep))
+
+  def reflect: Line2 = Line2(sp unto Point2(dir), dir.reflect)
+
+  // ---- for Trans2 ----
+
+  def +(op: Point2): Line2 = updatedSP(sp+op)
+  def -(op: Point2): Line2 = updatedSP(sp-op)
+
+  // ---- for Figure2 ----
+
+  def isIntersect(op: Figure2): Boolean = op match {
+    case line: Line2 => this isIntersectLine2 line
+    case _ => op isIntersect this
+  }
+
+  def intersect(op: Figure2): Set[Point2] = op match {
+    case line: Line2 => this intersectLine2 line
+    case _ => op intersect this
+  }
+
+  // ---- copy from Dir2 ----
+
+  def align(idx: Int): Boolean = ???
+  def normalDir: Line2 = ???
+  def normal(op: Line2): Boolean = ???
+  def parallel(op: Line2): Boolean = ???
+
+  def angle: Double = ???
+  def angleTo(op: Line2): Double = ???
+  def cosTo(op: Line2): Double = ???
+  def sinTo(op: Line2): Double = ???
+
+  // def inRegion1(pt: Point): Boolean = ???
+  // def inRegion2(pt: Point): Boolean = ???
+  def through(pt: Point2): Boolean = ???
+  def containPoint2(pt: Point2): Boolean = ???
+  def distance(pt: Point2): Double = ???
+  def distanceSqr(pt: Point2): Double = ???
+  def nearest(pt: Point2): Point2 = ???
+
+  def same(line: Line2): Boolean = ???
+  def intersectLine2(line: Line2): Set[Point2] = ???
+  def isIntersectLine2(line: Line2): Boolean = ???
 }
