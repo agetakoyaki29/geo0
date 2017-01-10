@@ -7,17 +7,19 @@ object Delta {
     implicit val delta: Double = MinNormal
   // }
 
+  def relativeDelta(d: Double): Double = d.ulp.scalb(4)
+
   def eq0(d1: Double, deltas: Double*)(implicit delta: Double): Boolean = {
     d1.abs <= (delta +: deltas).max
   }
-  def eq(d1: Double, d2: Double): Boolean = eq0(d1-d2, d1.ulp, d2.ulp)
-  // def sumeq0(ds: Seq[Double]): Boolean = eq0(ds.sum, ds.map{_.ulp}: _*)
+  def eq(d1: Double, d2: Double): Boolean = eq0(d1-d2, relativeDelta(d1), relativeDelta(d2))
+  // def sumeq0(ds: Seq[Double]): Boolean = eq0(ds.sum, ds.map{relativeDelta(_)}: _*)
 
   def lt0(d1: Double, deltas: Double*)(implicit delta: Double): Boolean = d1 <= (delta +: deltas).max
-  def lt(d1: Double, d2: Double): Boolean = lt0(d1-d2, d1.ulp, d2.ulp)
+  def lt(d1: Double, d2: Double): Boolean = lt0(d1-d2, relativeDelta(d1), relativeDelta(d2))
 
   def gt0(d1: Double, deltas: Double*)(implicit delta: Double): Boolean = d1 <= (delta +: deltas).max
-  def gt(d1: Double, d2: Double): Boolean = gt0(d1-d2, d1.ulp, d2.ulp)
+  def gt(d1: Double, d2: Double): Boolean = gt0(d1-d2, relativeDelta(d1), relativeDelta(d2))
 
   // ---- Math ----
 
