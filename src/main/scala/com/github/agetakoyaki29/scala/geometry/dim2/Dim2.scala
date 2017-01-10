@@ -96,10 +96,7 @@ abstract class Dim2Factory[+T <: Dim2 : ClassTag] extends DimFactory[T] {
   final val Length: Int = 2
 
   def apply(x: Double, y: Double): T
-  def apply(op: Dim2): T = op match {
-    case t: T => t
-    case dim2 => clone(dim2)
-  }
+  def apply(op: Dim2): T = clone(op)
   def apply(seq: Seq[Double]): T = {
     if(seq.length != Length) throw new IllegalArgumentException(s"wrong length seq; found: ${seq.length}, required: ${Length}")
     this(seq(0), seq(1))
