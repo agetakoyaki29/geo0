@@ -76,7 +76,7 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   def same(op: Dir2): Boolean = this parallel op
 
-  def same(line: Line2): Boolean = (this through line.sp) && (this parallel line.dir)
+  def same(line: Line2): Boolean = (this through line.sp) && (this same line.dir)
 
   // def aabb: AABB = AABB.WHOLE
 
