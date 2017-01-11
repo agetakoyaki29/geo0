@@ -80,8 +80,12 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // def aabb: AABB = AABB.WHOLE
 
-  def intersectLine2(line: Line2): Set[Point2] = ???
-  def isIntersectLine2(line: Line2): Boolean = ???
+  def intersectLine2(line: Line2): Set[Point2] = intersectTimeLine2(line) map {Point2(this) * _} toSet
+  def intersectTimeLine2(line: Line2): Set[Double] = {
+    if(!(this isIntersectLine2 line)) Set()
+    else Set( (line.sp cross line.dir) / (this cross line.dir) )
+  }
+  def isIntersectLine2(line: Line2): Boolean = ! (this parallel line.dir)
 
   // ---- UpRet ----
 

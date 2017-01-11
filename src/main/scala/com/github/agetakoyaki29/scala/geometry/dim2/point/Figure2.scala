@@ -11,6 +11,10 @@ trait Figure2 {
 
   // def same(op: Figure2): Boolean
   // def contain(op: Figure2): Boolean
+
+  /**
+   * this is not intersect this
+   */
   def isIntersect(op: Figure2): Boolean
   def intersect(op: Figure2): Set[Point2]
 }
