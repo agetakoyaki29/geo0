@@ -16,3 +16,11 @@ dot, cross ?
 
 * NonInfinite => NotInfinite
 isInfinite
+
+* about inheritance
+Dir2    <: Vector2  (not Zero, Inf)
+Range2  <: Vector2  (not Zero, Inf)
+Corner2 <: Point2   (abs)
+pt: Point2 = Point2(dir), Point2(range), corner // downcast(for validation)
+
+* def xxx => lazy val xxx

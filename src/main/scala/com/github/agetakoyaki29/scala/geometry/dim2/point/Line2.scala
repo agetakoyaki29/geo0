@@ -80,12 +80,16 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // def aabb: AABB = AABB.WHOLE
 
+  def isIntersectLine2(line: Line2): Boolean = ! (this parallel line.dir)
   def intersectLine2(line: Line2): Set[Point2] = intersectTimeLine2(line) map {Point2(this) * _} toSet
   def intersectTimeLine2(line: Line2): Set[Double] = {
     if(!(this isIntersectLine2 line)) Set()
     else Set( (line.sp cross line.dir) / (this cross line.dir) )
   }
-  def isIntersectLine2(line: Line2): Boolean = ! (this parallel line.dir)
+
+  def isIntersectAABB2(aabb: AABB2): Boolean = ???
+  def intersectAABB2(aabb: AABB2): Set[Point2] = intersectTimeAABB2(aabb) map {Point2(this) * _} toSet
+  def intersectTimeAABB2(aabb: AABB2): Set[Double] = ???
 
   // ---- UpRet ----
 
@@ -130,11 +134,13 @@ class Line2(val sp: Point2, val dir: Dir2) extends Trans2[Line2] with Figure2 {
 
   def isIntersect(op: Figure2): Boolean = op match {
     case line: Line2 => this isIntersectLine2 line
+    case aabb: AABB2 => this isIntersectAABB2 aabb
     case _ => op isIntersect this
   }
 
   def intersect(op: Figure2): Set[Point2] = op match {
     case line: Line2 => this intersectLine2 line
+    case aabb: AABB2 => this intersectAABB2 aabb
     case _ => op intersect this
   }
 
@@ -159,6 +165,8 @@ class Line2(val sp: Point2, val dir: Dir2) extends Trans2[Line2] with Figure2 {
   def nearest(pt: Point2): Point2 = ???
 
   def same(line: Line2): Boolean = ???
-  def intersectLine2(line: Line2): Set[Point2] = ???
   def isIntersectLine2(line: Line2): Boolean = ???
+  def isIntersectAABB2(aabb: AABB2): Boolean = ???
+  def intersectLine2(line: Line2): Set[Point2] = ???
+  def intersectAABB2(aabb: AABB2): Set[Point2] = ???
 }

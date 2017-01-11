@@ -27,7 +27,7 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   def center: Point2 = O
 
-  def isConcentric(circle: Circle2): Boolean = circle.sp same O
+  def isConcentric(circle: Circle2): Boolean = center same circle.center
 
   def radicalLine(circle: Circle2): Line2 = {
     if(!(this isConcentric circle)) throw new IllegalArgumentException("required not concentric circle")
@@ -55,6 +55,7 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // def aabb: AABB = AABB(O, this)
 
+  def isIntersectLine2(line: Line2): Boolean = gt(this.powerSqr, line distanceSqr O)
   def intersectLine2(line: Line2): Set[Point2] = {
     val nearest = line nearest O
     if(!(this containPoint2 nearest)) Set()
@@ -65,10 +66,9 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
       Set(nearest+diff, nearest-diff)
     }
   }
-  def isIntersectLine2(line: Line2): Boolean = gt(this.powerSqr, line distanceSqr O)
 
-  def intersectCircle2(circle: Circle2): Set[Point2] = this intersectLine2 (this radicalLine circle)
   def isIntersectCircle2(circle: Circle2): Boolean = gt(this.power + circle.power, circle.center.norm)
+  def intersectCircle2(circle: Circle2): Set[Point2] = this intersectLine2 (this radicalLine circle)
 
   // ---- UpRet ----
 
@@ -136,8 +136,8 @@ class Circle2(val sp: Point2, val range: Range2) extends Trans2[Circle2] with Fi
   def nearest(pt: Point2): Point2 = ???
 
   def same(circle: Circle2): Boolean = ???
-  def intersectLine2(line: Line2): Set[Point2] = ???
   def isIntersectLine2(line: Line2): Boolean = ???
-  def intersectCircle2(circle: Circle2): Set[Point2] = ???
   def isIntersectCircle2(circle: Circle2): Boolean = ???
+  def intersectLine2(line: Line2): Set[Point2] = ???
+  def intersectCircle2(circle: Circle2): Set[Point2] = ???
 }
