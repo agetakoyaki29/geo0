@@ -148,7 +148,8 @@ object Delta {
     def scalb(scaleFactor: Int): Double = Math.scalb(that, scaleFactor)
   }
 
-  implicit class RichLong(val that: Long) {
+  // for long bits
+  implicit class LongBits(val that: Long) {
     def bitsToDouble: Double = java.lang.Double.longBitsToDouble(that)
   }
 
