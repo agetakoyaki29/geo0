@@ -38,9 +38,9 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // ---- figure to point ----
 
-  def through(pt: Point2): Boolean = eq(this.normSqr, pt.normSqr)
+  def through(pt: Point2): Boolean = this.normSqr =~ pt.normSqr
 
-  def containPoint2(pt: Point2): Boolean = gt(this.normSqr, pt.normSqr)
+  def containPoint2(pt: Point2): Boolean = this.normSqr >~ pt.normSqr
 
   def distance(pt: Point2): Double = (pt.norm - this.norm).abs
   def distanceSqr(pt: Point2): Double = distance(pt).sqr
@@ -49,13 +49,13 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   // ---- figure to other figure ----
 
-  def same(op: Range2): Boolean = eq(this.powerSqr, op.powerSqr)
+  def same(op: Range2): Boolean = this.powerSqr =~ op.powerSqr
 
   def same(circle: Circle2): Boolean = (this isConcentric circle) && (this same circle.range)
 
   // def aabb: AABB = AABB(O, this)
 
-  def isIntersectLine2(line: Line2): Boolean = gt(this.powerSqr, line distanceSqr O)
+  def isIntersectLine2(line: Line2): Boolean = this.powerSqr >~ (line distanceSqr O)
   def intersectLine2(line: Line2): Set[Point2] = {
     val nearest = line nearest O
     if(!(this containPoint2 nearest)) Set()
@@ -67,7 +67,7 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
     }
   }
 
-  def isIntersectCircle2(circle: Circle2): Boolean = gt(this.power + circle.power, circle.center.norm)
+  def isIntersectCircle2(circle: Circle2): Boolean = (this.power + circle.power) >~ circle.center.norm
   def intersectCircle2(circle: Circle2): Set[Point2] = this intersectLine2 (this radicalLine circle)
 
   // ---- UpRet ----

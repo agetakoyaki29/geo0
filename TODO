@@ -1,26 +1,32 @@
 
-* validate throw Exception => Option
-Dim2Factory.create(): Option[T] = {
-  try { Some(apply()) }
-  catch[IllegalArgumentException] { None }
-}
+* use Predef.required instead of if(...) throw new IllegalArgumentException
+
+* NonInfinite => NotInfinite
+isInfinite
+
+* def xxx => lazy val xxx
+
+* remove dim3, Dim(, DimFactory)
+
+// ---- ----
 
 * dir == Line(O, dir)
 implicit def dirToLine(dir: Dir2): Line = Line(O, dir)
 dir angleTo line
 dir unfrom => line
 
+* validate throw Exception => Option
+Dim2Factory.create(): Option[T] = {
+  try { Some(apply()) }
+  catch[IllegalArgumentException] { None }
+}
+
 * between basic operator and {R^2 + ∞}
 inf - inf = zero ?
 dot, cross ?
-
-* NonInfinite => NotInfinite
-isInfinite
 
 * about inheritance
 Dir2    <: Vector2  (not Zero, Inf)
 Range2  <: Vector2  (not Zero, Inf)
 Corner2 <: Point2   (abs)
 pt: Point2 = Point2(dir), Point2(range), corner // downcast(for validation)
-
-* def xxx => lazy val xxx

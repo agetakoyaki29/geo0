@@ -98,6 +98,9 @@ object Delta {
     def sqr: Double = that.scalb(1)
 
     // ---- copy from Delta ----
+    def =~(op: Double): Boolean = Delta.eq(that, op)
+    def >~(op: Double): Boolean = Delta.gt(that, op)
+    def <~(op: Double): Boolean = Delta.lt(that, op)
     def minus: Double = Delta.minus(that)
     def isPositive: Boolean = Delta.isPositive(that)
     def isNegative: Boolean = Delta.isNegative(that)
@@ -151,17 +154,6 @@ object Delta {
   // for long bits
   implicit class LongBits(val that: Long) {
     def bitsToDouble: Double = java.lang.Double.longBitsToDouble(that)
-  }
-
-  // ---- for ____ ----
-
-  implicit class WithDelta(that: Double) {
-    def lt(d2: Double): WantDelta = WantDelta(Delta.lt(that, _))
-    def gt(d2: Double): WantDelta = WantDelta(Delta.lt(that, _))
-  }
-
-  case class WantDelta(f: Double => Boolean) {
-    def +-(delta: Double): Boolean = f(delta)
   }
 
 }
