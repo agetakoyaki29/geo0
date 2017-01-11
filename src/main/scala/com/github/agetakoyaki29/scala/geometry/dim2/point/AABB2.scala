@@ -26,13 +26,22 @@ class Corner2(_x: Double, _y: Double) extends Vector2(_x.abs, _y.abs) {
   def maxmin: Point2 = Point2( x, -y)
   def maxmax: Point2 = Point2( x,  y)
 
+  // def border(idx: Int): Border = ???
+  // def borders: Seq[Border] = indices map {border _}
+  // def bordersOther(border: Border): Seq[Border] = bordersOther(border.idx)
+  // def bordersOther(idx: Int): Seq[Slab] = indicesOther(idx) map {border _}
+  // def slab(idx: Int): Slab = ???
+  // def slabsOther(slab: Slab): Seq[Slab] = slabsOther(slab.idx)
+  // def slabsOther(idx: Int): Seq[Slab] = indicesOther(idx) map {slab _}
+  // def slabs: Seq[Slab] = indices map {slab _}
+
   def isConcentric(aabb: AABB2): Boolean = center same aabb.center
 
   // ---- figure to point ----
 
-  def through(pt: Point2): Boolean = ???
+  def through(pt: Point2): Boolean = ???//for(border <- borders) if(border through pt) bordersOther(border) map {_ containPoint2 pt} reduce {_&&_}
 
-  def containPoint2(pt: Point2): Boolean = ???
+  def containPoint2(pt: Point2): Boolean = ???//borders map {_.containPoint2} reduce {_&&_}
 
   def distance(pt: Point2): Double = ???
   def distanceSqr(pt: Point2): Double = ???

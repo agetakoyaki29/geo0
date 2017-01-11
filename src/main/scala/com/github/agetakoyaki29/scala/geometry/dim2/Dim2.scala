@@ -57,6 +57,8 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
 
   // ---- from IndexedSeq ----
 
+  final def indicesOther(index: Int) = Dim2.Other(index)
+
   final def zipmap[B](op: Dim2)(f: (Double, Double) => B): IndexedSeq[B] = this zip op map { (tup: (Double, Double)) => f(tup._1, tup._2) }
 
   @UpRet def reverseD2: Dim2 = factory(super.reverse)
