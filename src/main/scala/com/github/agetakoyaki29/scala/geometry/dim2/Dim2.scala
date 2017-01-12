@@ -13,9 +13,9 @@ object Dim2 extends Dim2Factory[Dim2] {
 
   // ---- for validation ----
 
-  val NonNaN:      Dim2 => Dim2 = dim2 => { require(! dim2.isNaN,      "required non NaN");      dim2 }
-  val NonInfinite: Dim2 => Dim2 = dim2 => { require(! dim2.isInfinite, "required non Infinite"); dim2 }
-  val NonZero:     Dim2 => Dim2 = dim2 => { require(! dim2.isZero,     "required non Zero");     dim2 }
+  val NotNaN:      Dim2 => Dim2 = dim2 => { require(! dim2.isNaN,      "required not NaN Dim2");      dim2 }
+  val NotInfinite: Dim2 => Dim2 = dim2 => { require(! dim2.isInfinite, "required not Infinite Dim2"); dim2 }
+  val NotZero:     Dim2 => Dim2 = dim2 => { require(! dim2.isZero,     "required not Zero Dim2");     dim2 }
   val Identity:    Dim2 => Dim2 = identity
 }
 
@@ -33,7 +33,7 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   this foreach {validateEach apply _}
 
   protected def validate: Dim2 => Dim2 = Dim2.Identity
-  protected def validateEach: Double => Double = NonNaN andThen NonInfinite
+  protected def validateEach: Double => Double = NotNaN andThen NotInfinite
 
   // ---- for IndexedSeq ----
 
@@ -67,7 +67,7 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   @UpRet def -(op: Dim2): Dim2 = zipmapD2(op) {_-_}
 
   /**
-   * @param d NonInfinite(zero * inf = NaN)
+   * @param d NotInfinite(zero * inf = NaN)
    */
   @UpRet def *(d: Double): Dim2 = d match {
     case _ if d.isInfinite => throw new IllegalArgumentException("required non infinite")
@@ -75,7 +75,7 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   }
 
   /**
-   * @param d NonZero(zero / zero = NaN, any / zero = inf)
+   * @param d NotZero(zero / zero = NaN, any / zero = inf)
    */
   @UpRet def /(d: Double): Dim2 = d match {
     case _ if d.isZero => throw new IllegalArgumentException("required non zero")

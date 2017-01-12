@@ -18,7 +18,7 @@ class Range2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   def toRange2: Range2 = this
 
-  override protected def validate = Dim2.NonZero andThen super.validate
+  override protected def validate = Dim2.NotZero andThen super.validate
 
   // ----
 

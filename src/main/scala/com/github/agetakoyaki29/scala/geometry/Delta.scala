@@ -67,11 +67,11 @@ object Delta {
 
   // ---- for validation ----
 
-  val NonNaN:      Double => Double = d => { require(! d.isNaN,      "required NonNaN");      d }
-  val NonInfinite: Double => Double = d => { require(! d.isInfinite, "required NonInfinite"); d }
-  val NonZero:     Double => Double = d => { require(! d.isZero,     "required NonZero");     d }
-  val NonPlus:     Double => Double = d => { require(!(d > 0),       "required NonPlus");     d }
-  val NonMinus:    Double => Double = d => { require(!(d < 0),       "required NonMinus");    d }
+  val NotNaN:      Double => Double = d => { require(! d.isNaN,      "required not NaN Double");      d }
+  val NotInfinite: Double => Double = d => { require(! d.isInfinite, "required not Infinite Double"); d }
+  val NotZero:     Double => Double = d => { require(! d.isZero,     "required not Zero Double");     d }
+  val NotPlus:     Double => Double = d => { require(!(d > 0),       "required not Plus Double");     d }
+  val NotMinus:    Double => Double = d => { require(!(d < 0),       "required not Minus Double");    d }
   val Identity:    Double => Double = identity
 
   // ---- RichBoolean ----

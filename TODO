@@ -1,7 +1,4 @@
 
-* NonInfinite => NotInfinite
-isInfinite
-
 * use Predef.require instead of if(...) throw new IllegalArgumentException
 
 * def xxx => lazy val xxx
