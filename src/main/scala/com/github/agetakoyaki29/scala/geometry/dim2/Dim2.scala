@@ -69,17 +69,17 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   /**
    * @param d NotInfinite(zero * inf = NaN)
    */
-  @UpRet def *(d: Double): Dim2 = d match {
-    case _ if d.isInfinite => throw new IllegalArgumentException("required non infinite")
-    case _ => mapD2{_*d}
+  @UpRet def *(d: Double): Dim2 = {
+    NotZero(d)
+    this mapD2 {_*d}
   }
 
   /**
    * @param d NotZero(zero / zero = NaN, any / zero = inf)
    */
-  @UpRet def /(d: Double): Dim2 = d match {
-    case _ if d.isZero => throw new IllegalArgumentException("required non zero")
-    case _ => mapD2{_/d}
+  @UpRet def /(d: Double): Dim2 = {
+    NotZero(d)
+    this mapD2 {_/d}
   }
 
   @UpRet def minus: Dim2 = -this
@@ -108,7 +108,7 @@ abstract class Dim2Factory[+T <: Dim2 : ClassTag] extends DimFactory[T] {
   def apply(x: Double, y: Double): T
   def apply(op: Dim2): T = clone(op)
   def apply(seq: Seq[Double]): T = {
-    if(seq.length != Length) throw new IllegalArgumentException(s"wrong length seq; found: ${seq.length}, required: ${Length}")
+    require(seq.length == Length, s"wrong length seq; found: ${seq.length}, required: ${Length}")
     this(seq(0), seq(1))
   }
 

@@ -1,6 +1,4 @@
 
-* use Predef.require instead of if(...) throw new IllegalArgumentException
-
 * def xxx => lazy val xxx
 
 * remove dim3, Dim(, DimFactory)
