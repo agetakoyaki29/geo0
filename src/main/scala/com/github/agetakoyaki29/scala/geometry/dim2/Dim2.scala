@@ -13,24 +13,10 @@ object Dim2 extends Dim2Factory[Dim2] {
 
   // ---- for validation ----
 
-  val NonNaN: PartialFunction[Dim2, Dim2] = {
-    case dim2 if dim2.isNaN => throw new IllegalArgumentException("required non NaN")
-  }
-  val NonInfinite: PartialFunction[Dim2, Dim2] = {
-    case dim2 if dim2.isInfinite => throw new IllegalArgumentException("required non Infinite")
-  }
-  val NonZero: PartialFunction[Dim2, Dim2] = {
-    case dim2 if dim2.isZero => throw new IllegalArgumentException("required non Zero")
-  }
-  // val NonPlus: PartialFunction[Dim2, Dim2] = {
-  //   case dim2 if dim2 > 0 => throw new IllegalArgumentException("required non Plus")
-  // }
-  // val NonMinus: PartialFunction[Dim2, Dim2] = {
-  //   case dim2 if dim2 < 0 => throw new IllegalArgumentException("required non Minus")
-  // }
-  val All: PartialFunction[Dim2, Dim2] = {
-    case dim2 => dim2
-  }
+  val NonNaN:      Dim2 => Dim2 = dim2 => { require(! dim2.isNaN,      "required non NaN");      dim2 }
+  val NonInfinite: Dim2 => Dim2 = dim2 => { require(! dim2.isInfinite, "required non Infinite"); dim2 }
+  val NonZero:     Dim2 => Dim2 = dim2 => { require(! dim2.isZero,     "required non Zero");     dim2 }
+  val Identity:    Dim2 => Dim2 = identity
 }
 
 
@@ -46,8 +32,8 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
   validate apply this
   this foreach {validateEach apply _}
 
-  protected def validate: PartialFunction[Dim2, Dim2] = Dim2.All
-  protected def validateEach: PartialFunction[Double, Double] = All orElse NonNaN orElse NonInfinite
+  protected def validate: Dim2 => Dim2 = Dim2.Identity
+  protected def validateEach: Double => Double = NonNaN andThen NonInfinite
 
   // ---- for IndexedSeq ----
 

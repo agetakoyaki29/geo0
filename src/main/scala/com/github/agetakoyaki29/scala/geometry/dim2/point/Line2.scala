@@ -20,7 +20,7 @@ class Dir2(_x: Double, _y: Double) extends Vector2(_x, _y) {
 
   def toDir2: Dir2 = this
 
-  override protected def validate = Dim2.NonZero orElse super.validate
+  override protected def validate = Dim2.NonZero andThen super.validate
 
   // ----
 

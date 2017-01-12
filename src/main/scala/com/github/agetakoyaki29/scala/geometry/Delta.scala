@@ -67,24 +67,12 @@ object Delta {
 
   // ---- for validation ----
 
-  val NonNaN: PartialFunction[Double, Double] = {
-    case double if double.isNaN => throw new IllegalArgumentException("required non NaN")
-  }
-  val NonInfinite: PartialFunction[Double, Double] = {
-    case double if double.isInfinite => throw new IllegalArgumentException("required non Infinite")
-  }
-  val NonZero: PartialFunction[Double, Double] = {
-    case double if double.isZero => throw new IllegalArgumentException("required non Zero")
-  }
-  val NonPlus: PartialFunction[Double, Double] = {
-    case double if double > 0 => throw new IllegalArgumentException("required non Plus")
-  }
-  val NonMinus: PartialFunction[Double, Double] = {
-    case double if double < 0 => throw new IllegalArgumentException("required non Minus")
-  }
-  val All: PartialFunction[Double, Double] = {
-    case double => double
-  }
+  val NonNaN:      Double => Double = d => { require(! d.isNaN,      "required NonNaN");      d }
+  val NonInfinite: Double => Double = d => { require(! d.isInfinite, "required NonInfinite"); d }
+  val NonZero:     Double => Double = d => { require(! d.isZero,     "required NonZero");     d }
+  val NonPlus:     Double => Double = d => { require(!(d > 0),       "required NonPlus");     d }
+  val NonMinus:    Double => Double = d => { require(!(d < 0),       "required NonMinus");    d }
+  val Identity:    Double => Double = identity
 
   // ---- RichBoolean ----
 
