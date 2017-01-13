@@ -56,7 +56,7 @@ class Dim3(val x: Double, val y: Double, val z: Double) extends IndexedSeq[Doubl
 }
 
 
-abstract class Dim3Factory[+T <: Dim3 : ClassTag] extends DimFactory[T] {
+abstract class Dim3Factory[T <: Dim3 : ClassTag] extends DimFactory[T] {
   final val Length: Int = 3
 
   def apply(x: Double, y: Double, z: Double): T

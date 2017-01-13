@@ -4,7 +4,7 @@ import com.github.agetakoyaki29.scala.geometry
 import geometry.Delta._
 
 
-trait DimFactory[+T <: Dim] {
+trait DimFactory[T <: Dim] {
   def Length: Int
   val Indices: Range = 0 until Length
   def Other(idx: Int): IndexedSeq[Int] = Indices filter {_ != idx}

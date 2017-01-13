@@ -6,7 +6,7 @@ import com.github.agetakoyaki29.scala.geometry
 import geometry.DimFactory
 
 
-abstract class Dim2Factory[+T <: Dim2 : ClassTag] extends DimFactory[T] {
+abstract class Dim2Factory[T <: Dim2 : ClassTag] extends DimFactory[T] {
   final val Length: Int = 2
 
   def apply(x: Double, y: Double): T
