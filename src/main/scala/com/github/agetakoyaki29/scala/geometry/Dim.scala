@@ -22,13 +22,6 @@ trait Dim extends IndexedSeq[Double] {
 
   // -- std --
 
-  override def toString = this.getClass.getSimpleName + "(" + mkString(", ") + ")"
-
-  // override def equals(op: Any) = op match {
-  //   case dim: Dim => (this zip dim2).map{_==_}.reduce{_||_}
-  //   case _ => false
-  // }
-
-  override def hashCode = ???
+  override def toString = this.getClass.getSimpleName + "(" + mkString(", ") + ")"  // for convenience
 
 }
