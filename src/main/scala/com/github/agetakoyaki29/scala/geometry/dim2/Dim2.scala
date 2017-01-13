@@ -91,4 +91,6 @@ class Dim2(_x: Double, val _y: Double) extends IndexedSeq[Double] with Dim {
     case _ => false
   }
 
+  override def hashCode = ???
+
 }
