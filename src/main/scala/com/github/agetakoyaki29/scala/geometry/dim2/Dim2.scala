@@ -8,13 +8,6 @@ import geometry.Dim
 
 object Dim2 extends Dim2Factory[Dim2] {
   def apply(x: Double, y: Double): Dim2 = new Dim2(x, y)
-
-  // ---- for validation ----
-
-  val NotNaN:      Dim2 => Dim2 = dim2 => { require(! dim2.isNaN,      "required not NaN Dim2");      dim2 }
-  val NotInfinite: Dim2 => Dim2 = dim2 => { require(! dim2.isInfinite, "required not Infinite Dim2"); dim2 }
-  val NotZero:     Dim2 => Dim2 = dim2 => { require(! dim2.isZero,     "required not Zero Dim2");     dim2 }
-  val Identity:    Dim2 => Dim2 = identity
 }
 
 
